@@ -3,12 +3,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field, useField } from 'formik';
 import * as Yup from 'yup';
 import Input from '../components/input';
-import Button from '../components/button';
-import styles from './form.module.scss';
-import {useUserStore} from "../store/userStore"
+import Button from "../components/button";
+import styles from "./form.module.scss";
+import { useUserStore } from '../../store/userStore';
 
 const phoneRegExp = /^09[0-9]{9}$/;
 
@@ -34,7 +34,6 @@ export default function AuthPage() {
       const data = await response.json();
       const userData = data.results[0];
       setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
       router.push('/dashboard');
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -52,13 +51,20 @@ export default function AuthPage() {
         >
           {({ isSubmitting, errors, touched }) => (
             <Form className={styles.form}>
-              <Input
-                label="شماره تلفن"
-                name="phone"
-                type="tel"
-                error={errors.phone}
-                touched={touched.phone}
-              />
+              <Field name="phone">
+                {({ field }) => (
+                  <Input
+                    label="شماره تلفن"
+                    name="phone"
+                    type="tel"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    error={errors.phone}
+                    touched={touched.phone}
+                  />
+                )}
+              </Field>
               <Button type="submit" disabled={isSubmitting}>
                 ورود
               </Button>

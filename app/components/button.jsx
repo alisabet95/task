@@ -1,6 +1,6 @@
 //file: app/comoonents/buttpn.jsx
 "use client"
-import styles from './Button.module.scss';
+import styles from './button.module.scss';
 
 
 const Button = ({ children, type = 'button', disabled, onClick }) => {
